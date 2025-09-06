@@ -1,61 +1,14 @@
 /* ==========================
-   Products & Cart Setup
+   Cart Management
 ========================== */
-const products = [
-    { id: 1, name: "T-Shirt", price: 25, img: "https://via.placeholder.com/250x200?text=T-Shirt" },
-    { id: 2, name: "Sneakers", price: 60, img: "https://via.placeholder.com/250x200?text=Sneakers" },
-    { id: 3, name: "Cap", price: 15, img: "https://via.placeholder.com/250x200?text=Cap" },
-    { id: 4, name: "Backpack", price: 40, img: "https://via.placeholder.com/250x200?text=Backpack" },
-    { id: 5, name: "Jacket", price: 80, img: "https://via.placeholder.com/250x200?text=Jacket" },
-    { id: 6, name: "Watch", price: 120, img: "https://via.placeholder.com/250x200?text=Watch" }
-];
-
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-/* ==========================
-   Render Products
-========================== */
-function renderProducts() {
-    const container = document.getElementById('product-list');
-    if (!container) return;
-
-    container.innerHTML = '';
-    products.forEach(product => {
-        const div = document.createElement('div');
-        div.className = 'product-card';
-        div.innerHTML = `
-            <img src="${product.img}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <div class="price">$${product.price}</div>
-            <button onclick="addToCart(${product.id})">Add to Cart</button>
-        `;
-        container.appendChild(div);
-    });
-}
-
-/* ==========================
-   Cart Functions
-========================== */
-function addToCart(id) {
-    const product = products.find(p => p.id === id);
-    if (!product) return;
-
-    const existingItem = cart.find(item => item.id === id);
-    if (existingItem) {
-        existingItem.quantity = (existingItem.quantity || 1) + 1;
-    } else {
-        cart.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-    updateCartCount();
-}
-
+/* Generate Receipt Number */
 function generateReceiptNumber() {
     return Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
 }
 
+/* Render Cart as Single POS Card */
 function renderCart() {
     const cartContainer = document.getElementById('cart-items');
     const cartTotalEl = document.getElementById('cart-total');
@@ -110,20 +63,21 @@ function renderCart() {
     cartTotalEl.textContent = total.toFixed(2);
 }
 
+/* Change Quantity */
 function changeQuantity(index, delta) {
     cart[index].quantity = Math.max(1, (cart[index].quantity || 1) + delta);
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
-    updateCartCount();
 }
 
+/* Remove Item */
 function removeItem(index) {
     cart.splice(index, 1);
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
-    updateCartCount();
 }
 
+/* Checkout / Payment */
 function checkout() {
     if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -138,6 +92,7 @@ function checkout() {
     const paymentMethod = prompt("Enter payment method (Cash, Card, Mobile):", "Cash");
     if (!paymentMethod) return;
 
+    // Generate HTML receipt
     let receiptHTML = `
     <html>
     <head>
@@ -184,6 +139,7 @@ function checkout() {
     </body>
     </html>`;
 
+    // Open print window
     const printWindow = window.open('', '', 'width=600,height=700');
     printWindow.document.write(receiptHTML);
     printWindow.document.close();
@@ -191,28 +147,11 @@ function checkout() {
     printWindow.print();
     printWindow.close();
 
+    // Clear cart
     cart = [];
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
-    updateCartCount();
 }
 
-/* ==========================
-   Live Cart Count
-========================== */
-function updateCartCount() {
-    const countEl = document.getElementById('cart-count');
-    if (!countEl) return;
-
-    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-    countEl.textContent = totalItems;
-}
-
-/* ==========================
-   Initialize Everything
-========================== */
-document.addEventListener('DOMContentLoaded', () => {
-    renderProducts();
-    renderCart();
-    updateCartCount();
-});
+/* Initialize Cart on Page Load */
+document.addEventListener('DOMContentLoaded', renderCart)

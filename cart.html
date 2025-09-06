@@ -4,40 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Demo Shopify Store - Cart</title>
+<!-- Font Awesome for social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="page-container">
+    <header>
+    <div class="logo">My Shopify Demo</div>
+    <div class="menu-toggle" id="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="contact.html">Contact</a>
+        <div id="cart-icon">
+    🛒 Cart (<span id="cart-count">0</span>)
+</div>
 
-<header>
-  <div class="logo">My Shopify Demo</div>
-  <div class="menu-toggle" id="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-  <nav id="navbar">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="cart.html">Cart</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+    </nav>
+    </header>
+    <main>
+        <section class="cart-section">
+        <h2>Your Shopping Cart</h2>
+        <div class="cart-container" id="cart-items">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-total">
+            Total: $<span id="cart-total">0</span>
+        </div>
+        <button class="btn" onclick="checkout()">Checkout</button>
+        </section>
+    </main>
+    <footer>
+    <div class="footer-top">
+        <div class="social-icons">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="newsletter">
+        <input type="email" placeholder="Subscribe to our newsletter">
+        <button>Subscribe</button>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Demo Shopify Store. All rights reserved.</p>
+    </div>
+    </footer>
 
-<section class="cart-section">
-  <h2>Your Shopping Cart</h2>
-  <div class="cart-container" id="cart-items">
-    <!-- Cart items will be loaded here -->
-  </div>
-  <div class="cart-total">
-    Total: $<span id="cart-total">0</span>
-  </div>
-  <button class="btn" onclick="checkout()">Checkout</button>
-</section>
-
-<footer>
-  <p>&copy; 2025 Demo Shopify Store | Follow us on social media</p>
-</footer>
-
+</div>
 <script src="script.js"></script>
+<script src="cart.js"></script>
 </body>
 </html>
