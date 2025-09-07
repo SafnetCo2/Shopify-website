@@ -10,6 +10,7 @@ const products = [
     { id: 6, name: "Watch", price: 120, img: "https://via.placeholder.com/250x200?text=Watch" }
 ];
 
+// Only declare cart once
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 /* ==========================
@@ -18,7 +19,6 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 function renderProducts() {
     const container = document.getElementById('product-list');
     if (!container) return;
-
     container.innerHTML = '';
     products.forEach(product => {
         const div = document.createElement('div');
@@ -39,17 +39,16 @@ function renderProducts() {
 function addToCart(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
-
     const existingItem = cart.find(item => item.id === id);
     if (existingItem) {
         existingItem.quantity = (existingItem.quantity || 1) + 1;
     } else {
         cart.push({ ...product, quantity: 1 });
     }
-
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
     updateCartCount();
+    showAddAlert(`${product.name} added to cart!`);
 }
 
 function changeQuantity(index, delta) {
@@ -66,9 +65,16 @@ function removeItem(index) {
     updateCartCount();
 }
 
-function checkout() {
+/* ==========================
+   Render Cart
+========================== */
+function renderCart() {
+    const cartContainer = document.getElementById('cart-items');
+    if (!cartContainer) return;
+    cartContainer.innerHTML = '';
+
     if (cart.length === 0) {
-        alert("Your cart is empty!");
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
         return;
     }
 
@@ -77,70 +83,109 @@ function checkout() {
     const discount = subtotal * 0.1;
     const total = subtotal + vat - discount;
 
-    alert(`Checkout Total: $${total.toFixed(2)}\nPayment handled separately`);
-    cart = [];
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-    updateCartCount();
+    const card = document.createElement('div');
+    card.className = 'cart-card';
+
+    const tableWrapper = document.createElement('div');
+    tableWrapper.className = 'cart-table-wrapper';
+    tableWrapper.innerHTML = `
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${cart.map((item, i) => `
+                    <tr>
+                        <td data-label="Item">${item.name}</td>
+                        <td data-label="Qty">${item.quantity}</td>
+                        <td data-label="Price">$${item.price.toFixed(2)}</td>
+                        <td data-label="Total">$${(item.price * item.quantity).toFixed(2)}</td>
+                        <td data-label="Actions">
+                            <button onclick="changeQuantity(${i}, -1)">-</button>
+                            <button onclick="changeQuantity(${i}, 1)">+</button>
+                            <button onclick="removeItem(${i})">Remove</button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+    card.appendChild(tableWrapper);
+
+    card.innerHTML += `
+        <p>Subtotal: $${subtotal.toFixed(2)}</p>
+        <p>VAT (16%): $${vat.toFixed(2)}</p>
+        <p>Discount (10%): -$${discount.toFixed(2)}</p>
+        <h4>Total: $${total.toFixed(2)}</h4>
+
+        <div class="cart-payment">
+            <h3>Select Payment Method</h3>
+            <form id="payment-form">
+                <label><input type="radio" name="payment" value="mpesa" required> M-Pesa</label>
+                <label><input type="radio" name="payment" value="card"> Card</label>
+                <label><input type="radio" name="payment" value="mobile"> Mobile Payment</label>
+                <label><input type="radio" name="payment" value="cash"> Cash</label>
+                <button type="submit">Proceed</button>
+            </form>
+            <div id="selected-payment"></div>
+        </div>
+
+        <button onclick="checkout()">Print & Complete</button>
+    `;
+
+    cartContainer.appendChild(card);
+
+    const paymentForm = document.getElementById('payment-form');
+    const selectedPayment = document.getElementById('selected-payment');
+    if (paymentForm && selectedPayment) {
+        paymentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const method = document.querySelector('input[name="payment"]:checked')?.value;
+            if (!method) return;
+            selectedPayment.textContent = `You selected: ${method.toUpperCase()}`;
+        });
+    }
 }
 
 /* ==========================
-   Live Cart Count
-========================== */
-function updateCartCount() {
-    const countEl = document.getElementById('cart-count');
-    if (!countEl) return;
-
-    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-    countEl.textContent = totalItems;
-}
-
-/* ==========================
-   Render Cart (Single Card)
+   Checkout & Print
 ========================== */
 function checkout() {
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-    }
-
+    if (cart.length === 0) return alert("Your cart is empty!");
     const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
-    if (!paymentMethod) {
-        alert("Please select a payment method!");
-        return;
-    }
+    if (!paymentMethod) return alert("Please select a payment method!");
 
     const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
     const vat = subtotal * 0.16;
     const discount = subtotal * 0.1;
     const total = subtotal + vat - discount;
 
-    // Generate HTML for print
-    let printHTML = `
+    const printHTML = `
         <html>
         <head>
             <title>Receipt</title>
             <style>
-                body { font-family: Arial, sans-serif; padding: 20px; color: #333; }
-                h2, h3, h4 { text-align: center; }
-                table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-                th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
-                .total { font-weight: bold; margin-top: 10px; }
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h2,h3,h4{text-align:center; margin:5px 0;}
+                table{width:100%;border-collapse:collapse;margin-top:15px; table-layout:auto;}
+                th,td{padding:8px;border:1px solid #ccc;text-align:left; white-space: nowrap;}
+                th{background-color:#f5f5f5;}
+                .total{font-weight:bold;}
             </style>
         </head>
         <body>
             <h2>Demo Shopify Store</h2>
             <p style="text-align:center;">123 Demo Street, Nairobi | +254 700 000 000</p>
-            <p style="text-align:center;">Date: ${new Date().toLocaleDateString()} Time: ${new Date().toLocaleTimeString()}</p>
-            <h3>Receipt #: ${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}</h3>
+            <p>Date: ${new Date().toLocaleDateString()} | Time: ${new Date().toLocaleTimeString()}</p>
             <table>
                 <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
+                    <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
                 </thead>
                 <tbody>
                     ${cart.map(item => {
@@ -171,28 +216,54 @@ function checkout() {
     printWindow.print();
     printWindow.close();
 
-    // Clear cart after printing
     cart = [];
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
     updateCartCount();
 }
 
+/* ==========================
+   Live Cart Count
+========================== */
+function updateCartCount() {
+    const countEl = document.getElementById('cart-count');
+    if (!countEl) return;
+    countEl.textContent = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+}
 
-
-
-
-
-
+/* ==========================
+   Alert / Toast
+========================== */
+function showAddAlert(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'add-alert';
+    alertDiv.textContent = message;
+    document.body.appendChild(alertDiv);
+    setTimeout(() => {
+        alertDiv.classList.add('fade-out');
+        setTimeout(() => alertDiv.remove(), 500);
+    }, 2000);
+}
 
 /* ==========================
    Mobile Menu Toggle
 ========================== */
-const menuToggle = document.getElementById('mobile-menu');
-const nav = document.getElementById('navbar');
-if (menuToggle && nav) {
-    menuToggle.addEventListener('click', () => nav.classList.toggle('active'));
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('mobile-menu');
+    const nav = document.getElementById('navbar');
+
+    if (menuToggle && nav) {
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    }
+});
+
+
+
+
+
+
 
 /* ==========================
    Init
@@ -201,16 +272,55 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
     renderCart();
     updateCartCount();
-
-    const paymentForm = document.getElementById('payment-form');
-    const selectedPayment = document.getElementById('selected-payment');
-
-    if (paymentForm && selectedPayment) {
-        paymentForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
-            if (!paymentMethod) return;
-            selectedPayment.textContent = `You selected: ${paymentMethod.toUpperCase()}`;
-        });
-    }
 });
+
+/* ==========================
+   Chatbot Setup
+========================== */
+const chatbotHeader = document.getElementById('chatbot-header');
+const chatbotBody = document.getElementById('chatbot-body');
+const chatbotMessages = document.getElementById('chatbot-messages');
+const chatbotInput = document.getElementById('chatbot-input');
+const chatbotSend = document.getElementById('chatbot-send');
+
+// Toggle chatbot
+chatbotHeader.addEventListener('click', () => {
+    chatbotBody.style.display = chatbotBody.style.display === 'flex' ? 'none' : 'flex';
+});
+
+// Send message
+chatbotSend.addEventListener('click', sendMessage);
+chatbotInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') sendMessage();
+});
+
+function sendMessage() {
+    const message = chatbotInput.value.trim();
+    if (!message) return;
+
+    // User message
+    const userMsg = document.createElement('div');
+    userMsg.textContent = message;
+    userMsg.classList.add('user');
+    chatbotMessages.appendChild(userMsg);
+
+    chatbotInput.value = '';
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+    // Bot reply
+    setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.textContent = getBotReply(message);
+        chatbotMessages.appendChild(botMsg);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }, 500);
+}
+
+// Basic bot replies
+function getBotReply(message) {
+    message = message.toLowerCase();
+    if (message.includes('hello') || message.includes('hi')) return 'Hello! How can I help you today?';
+    if (message.includes('price')) return 'Our products start from $25. Which one are you interested in?';
+    if (message.includes('payment')) return 'You can pay via M-Pesa, card, mobile payment, or cash.';
+    return 'I\'m here to assist you with your orders!';
+}

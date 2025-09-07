@@ -10,7 +10,7 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background: #f9f9f9; /* light background for readability */
+    background: #f9f9f9;
     color: #333;
 }
 
@@ -29,7 +29,7 @@ a {
 }
 
 main {
-    flex: 1;
+    flex: 1 0 auto;
     padding: 20px;
 }
 
@@ -41,8 +41,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #47403b; /* dark-tan header */
-    color: #fff;
+    background-color: #c0bfbe;
+    color: #000;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -56,28 +56,27 @@ header {
 nav a {
     margin-left: 1.5rem;
     font-weight: 500;
-    transition: background 0.3s, color 0.3s;
     padding: 6px 12px;
     border-radius: 6px;
-    color: #fff;
+    color: #000;
+    transition: background 0.3s, color 0.3s;
 }
 
 nav a:hover {
-    background-color: #a07d38; /* lighter tan hover */
-    color: #fff; /* contrast text */
+    background-color: #fff;
 }
 
-/* Mobile Menu Toggle */
 .menu-toggle {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    
 }
 
 .menu-toggle span {
     height: 3px;
     width: 25px;
-    background: #fff;
+    background-color: #000;
     margin-bottom: 5px;
     border-radius: 2px;
 }
@@ -135,8 +134,8 @@ nav a:hover {
 }
 
 .product-card button {
-    background-color: #47403b; /* match header */
-    color: #fff;
+    background-color: #c0bfbe;
+    color: #000;
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 6px;
@@ -145,61 +144,68 @@ nav a:hover {
 }
 
 .product-card button:hover {
-    background-color: #a07d38; /* darker tan */
+    background-color: #fff;
     transform: translateY(-2px);
 }
 
 /* ==========================
    Cart Page
 ========================== */
-.cart-container {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-}
-
 .cart-card {
     background: #fff;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-width: 750px;
     width: 100%;
+    max-width: 750px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow-x: auto;
+    margin: auto;
 }
 
-.cart-card h2 {
-    color: #1e1e2f;
-    text-align: center;
+.cart-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
 }
 
-.cart-product {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    align-items: center;
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    margin-bottom: 20px;
 }
 
-.cart-product img {
-    width: 100px;
-    height: 100px;
+.cart-table th,
+.cart-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.cart-table th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.cart-table img {
+    width: 70px;
+    height: 70px;
     object-fit: cover;
+    border-radius: 6px;
+}
+
+.cart-payment {
+    background: #f9f9f9;
+    padding: 15px;
     border-radius: 8px;
 }
 
-.cart-info h4 {
-    margin-bottom: 0.3rem;
-    color: #1e1e2f;
-}
-
-.cart-info p {
-    margin: 2px 0;
-}
-
 .cart-payment h3 {
-    margin: 1rem 0;
+    text-align: center;
+    margin-bottom: 10px;
     color: #1e1e2f;
 }
 
@@ -209,17 +215,10 @@ nav a:hover {
     gap: 10px;
 }
 
-.cart-payment label {
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 .cart-payment button {
     margin-top: 10px;
-    background-color: #47403b;
-    color: #fff;
+    background-color: #c0bfbe;
+    color: #000;
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 6px;
@@ -228,25 +227,75 @@ nav a:hover {
 }
 
 .cart-payment button:hover {
-    background-color: #a07d38;
+    background-color: #c0bfbe;
     transform: translateY(-2px);
-    color: #fff;
 }
 
 #selected-payment {
     margin-top: 10px;
     font-weight: bold;
+    text-align: center;
 }
 
+/* Responsive Table: Stack rows on small screens */
+@media (max-width: 600px) {
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table,
+    .cart-table tbody,
+    .cart-table tr,
+    .cart-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .cart-table tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .cart-table td {
+        text-align: left;
+        padding-left: 30%;
+        position: relative;
+        white-space: normal;
+        position: relative;
+        text-align: right;
+    }
+
+    .cart-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 30%;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+
+
+
+
 /* ==========================
-   Footer
+   Footer - Fixed Bottom for Cart
 ========================== */
 footer {
-    background: #47403b;
-    color: #fff;
-    padding: 2rem 1rem 1rem;
-    margin-top: auto;
+    background: #c0bfbe;
+    color: #000;
+    padding: 2rem 1rem;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+
 }
+
 
 .footer-top {
     display: flex;
@@ -254,29 +303,40 @@ footer {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 .social-icons a {
     margin-right: 1rem;
-    color: #fff;
+    color: #000;
     transition: color 0.3s;
 }
 
 .social-icons a:hover {
-    color: #a07d38;
+    color: #c0bfbe;
+}
+
+.newsletter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
 }
 
 .newsletter input {
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border: none;
     border-radius: 6px;
-    margin-right: 0.5rem;
+    min-width: 180px;
+    font-size: 0.95rem;
 }
 
 .newsletter button {
     padding: 0.5rem 1rem;
-    background-color: #47403b;
-    color: #fff;
+    background-color: #c0bfbe;
+    color: #000;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -284,8 +344,11 @@ footer {
 }
 
 .newsletter button:hover {
-    background-color:#a07d38;
+    background-color: #fff;
 }
+
+
+
 
 .footer-bottom {
     text-align: center;
@@ -293,63 +356,12 @@ footer {
 }
 
 /* ==========================
-   Responsive Styles
-========================== */
-@media (max-width: 768px) {
-    nav {
-        display: none;
-        flex-direction: column;
-        background: #47403b;
-        position: absolute;
-        top: 70px;
-        right: 0;
-        width: 200px;
-        border-radius: 6px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-
-    nav.active {
-        display: flex;
-    }
-
-    nav a {
-        margin: 1rem;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-
-    .shop-products {
-        padding: 1rem;
-    }
-
-    .cart-card {
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .product-card img {
-        height: 150px;
-    }
-
-    .cart-product {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .cart-product img {
-        margin-bottom: 0.5rem;
-    }
-}
-/* ==========================
    Contact Form Styles
 ========================== */
 .contact-section {
     padding: 2rem 1rem;
     max-width: 600px;
-    margin: 2rem auto; /* centers section */
+    margin: 2rem auto;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -359,7 +371,7 @@ footer {
     text-align: center;
     margin-bottom: 1.5rem;
     font-size: 2rem;
-    color: #1e1e2f; /* dark/navy heading */
+    color: #1e1e2f;
 }
 
 #contact-form {
@@ -387,7 +399,7 @@ footer {
 
 #contact-form button {
     align-self: center;
-    background-color: #47403b;
+    background-color: #c0bfbe;
     color: #fff;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
@@ -398,14 +410,89 @@ footer {
 }
 
 #contact-form button:hover {
-    background-color: #a07d38;
+    background-color: #fff;
     transform: translateY(-2px);
+}
+
+/* ==========================
+   Alerts
+========================== */
+.add-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #c0bfbe;
+    color: #000;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.add-alert.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 /* ==========================
    Responsive Styles
 ========================== */
 @media (max-width: 768px) {
+    header{
+        background-color: #fff;
+    }
+    nav {
+        display: none;
+        flex-direction: column;
+        background-color: #c0bfbe;
+        /* slightly darker for contrast */
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 9999;
+        
+        border-radius: 6px;
+
+
+}
+
+    nav.active {
+        display: flex;
+    }
+
+    nav a {
+        margin: 0;
+        padding: 15px 20px;
+        width: 100%;
+        display: block;
+        
+        text-align: left;
+        border-bottom: 1px solid #a07d38;
+    }
+
+    .menu-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        
+        padding: 10px;
+        
+    }
+
+    .shop-products {
+        padding: 1rem;
+    }
+
+    .cart-card {
+        padding: 1rem;
+    }
+
     .contact-section {
         padding: 1.5rem 1rem;
         margin: 1rem;
@@ -417,8 +504,145 @@ footer {
 }
 
 @media (max-width: 480px) {
+    .product-card img {
+        height: 150px;
+    }
+
+    .cart-product {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-product img {
+        margin-bottom: 0.5rem;
+    }
+
     .contact-section h2 {
         font-size: 1.5rem;
+    }
+
+    .cart-payment button {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* ==========================
+   Chatbot Styles (Responsive)
+========================== */
+#chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 200px;
+    max-height: 400px;
+    background: #fff;
+    border: 2px solid #c0bfbe;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    z-index: 10000;
+    transition: all 0.3s ease;
+}
+
+#chatbot-header {
+    /* background: #47403b;
+    color: #fff; */
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#chatbot-body {
+    flex: 1;
+    display: none; /* hidden by default */
+    flex-direction: column;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+#chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+#chatbot-messages div {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #e0e0e0;
+    word-wrap: break-word;
+}
+
+#chatbot-messages .user {
+    background: #47403b;
+    color: #fff;
+    text-align: right;
+}
+
+#chatbot-input {
+    width: calc(100% - 60px);
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#chatbot-send {
+    padding: 8px 12px;
+    margin-left: 5px;
+    background: #47403b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ==========================
+   Responsive Adjustments
+========================== */
+@media (max-width: 768px) {
+    #chatbot {
+        width: 250px;
+        max-height: 350px;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    #chatbot-input {
+        width: calc(100% - 55px);
+    }
+
+    #chatbot-send {
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #chatbot {
+        width: 200px;
+        max-height: 300px;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    #chatbot-input {
+        width: calc(100% - 50px);
+        padding: 6px;
+    }
+
+    #chatbot-send {
+        padding: 5px 8px;
+        font-size: 0.9rem;
+    }
+
+    #chatbot-messages div {
+        font-size: 0.85rem;
+        padding: 4px 6px;
     }
 }
 
