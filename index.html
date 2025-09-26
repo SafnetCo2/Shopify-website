@@ -1,68 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Shopify Store - Shop</title>
-<!-- Font Awesome for social icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Shopify Store - Landing</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div>
+  <div class="page-container">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="logo">My Shopify Demo</div>
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+      <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
 
-    
-        <header>
-        <div class="logo">My Shopify Demo</div>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="shop.html">Shop</a>
-            <a href="cart.html">Cart</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-        </header>
-        <main>
-            <section class="shop-products">
-            <h2>Our Products</h2>
-            <div class="product-grid" id="product-list">
-                <!-- Products will be loaded here by script.js -->
-            </div>
-            </section>
-        </main>
-        <!-- Chatbot -->
-        <div id="chatbot">
-            <div id="chatbot-header">💬 Chat with us
-                
-            </div>
-            <div id="chatbot-body">
-                <div id="chatbot-messages"></div>
-                <input type="text" id="chatbot-input" placeholder="Type your message..." />
-                <button id="chatbot-send">Send</button>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Welcome to My Shopify Demo</h1>
+        <p>Discover premium products with unbeatable deals.</p>
+        <a href="shop.html" class="btn-primary">Shop Now</a>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <main>
+      <section class="features">
+        <h2>Why Shop With Us?</h2>
+        <div class="feature-grid">
+          <div class="feature">
+            <i class="fas fa-shipping-fast"></i>
+            <h3>Fast Delivery</h3>
+            <p>Get your orders delivered quickly and safely.</p>
+          </div>
+          <div class="feature">
+            <i class="fas fa-lock"></i>
+            <h3>Secure Payments</h3>
+            <p>Pay with confidence using secure gateways.</p>
+          </div>
+          <div class="feature">
+            <i class="fas fa-star"></i>
+            <h3>Top Quality</h3>
+            <p>We offer the best quality products at fair prices.</p>
+          </div>
         </div>
+      </section>
 
-        <footer>
-        <div class="footer-top">
-            <div class="social-icons">
-            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <div class="newsletter">
-            <input type="email" placeholder="Subscribe to our newsletter">
-            <button>Subscribe</button>
-            </div>
+      <!-- Newsletter -->
+      <section class="newsletter-section">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to get our latest offers and news.</p>
+        <div class="newsletter">
+          <input type="email" placeholder="Enter your email">
+          <button>Subscribe</button>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Demo Shopify Store. All rights reserved.</p>
+      </section>
+    </main>
+
+    <!-- Chatbot -->
+    <div id="chatbot">
+      <div id="chatbot-header">
+        💬 Chat with us
+        <span id="chatbot-close">&times;</span>
+      </div>
+      <div id="chatbot-body">
+        <div id="chatbot-messages"></div>
+        <div class="chatbot-input-area">
+          <input type="text" id="chatbot-input" placeholder="Type your message..." />
+          <button id="chatbot-send">Send</button>
         </div>
-        </footer>
-
-
+      </div>
     </div>
 
-<script src="script.js"></script>
+    <!-- Footer -->
+    <footer>
+      <div class="footer-top">
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Demo Shopify Store. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

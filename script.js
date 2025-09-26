@@ -2,12 +2,41 @@
    Products & Cart Setup
 ========================== */
 const products = [
-    { id: 1, name: "T-Shirt", price: 25, img: "https://via.placeholder.com/250x200?text=T-Shirt" },
-    { id: 2, name: "Sneakers", price: 60, img: "https://via.placeholder.com/250x200?text=Sneakers" },
-    { id: 3, name: "Cap", price: 15, img: "https://via.placeholder.com/250x200?text=Cap" },
-    { id: 4, name: "Backpack", price: 40, img: "https://via.placeholder.com/250x200?text=Backpack" },
-    { id: 5, name: "Jacket", price: 80, img: "https://via.placeholder.com/250x200?text=Jacket" },
-    { id: 6, name: "Watch", price: 120, img: "https://via.placeholder.com/250x200?text=Watch" }
+    {
+        id: 1, name: "T-Shirt", price: 25,
+        img: "https://images.unsplash.com/photo-1643881080002-afdc695936e0?q=80&w=409&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        id: 2, name: "Sneakers", price: 60,
+        img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnN8ZW58MHx8MHx8fDA%3D"
+    },
+    {
+        id: 3, name: "Cap", price: 15,
+        img: "https://images.unsplash.com/photo-1466992133056-ae8de8e22809?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2FwfGVufDB8fDB8fHww"
+    },
+    {
+        id: 4, name: "Backpack", price: 40,
+        img: "https://images.unsplash.com/photo-1514524865930-188150490d83?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFjayUyMHBhY2t8ZW58MHx8MHx8fDA%3D"
+    },
+    {
+        id: 5, name: "Jacket", price: 80,
+        img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8amFja2V0fGVufDB8fDB8fHww"
+    },
+    {
+        id: 6, name: "Watch", price: 120,
+        img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2F0Y2h8ZW58MHx8MHx8fDA%3D"
+    },
+    {
+        id: 6, name: "Jewerly", price: 120,
+        img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+            {
+        id: 6, name: "women shoes", price: 120,
+                img: "https://images.unsplash.com/photo-1534653299134-96a171b61581?w=280&dpr=1&h=760&auto=format&fit=crop&q=60&ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzU3MjM2NDM1fA&ixlib=rb-4.1.0"
+            },
+                
+        
+            
 ];
 
 // Only declare cart once
