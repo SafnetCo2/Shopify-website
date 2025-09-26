@@ -5,12 +5,6 @@ Date: September 2025
 
 A responsive landing page for a Demo Shopify Store. Users can explore the homepage, shop, cart, and contact pages, view store features, subscribe to a newsletter, and use a static chatbot interface.
 
-# Demo Shopify Store
-
-**Author:** Josephine Mueni Nzioka  
-**Date:** September 2025  
-
-A responsive landing page for a Demo Shopify Store. Users can explore the homepage, shop, cart, and contact pages, view store features, subscribe to a newsletter, and use a static chatbot interface.
 
 **Technologies:** HTML5, CSS3, JavaScript, Font Awesome
 
