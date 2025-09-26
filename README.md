@@ -1,4 +1,4 @@
-Demo Shopify Store
+## Demo Shopify Store
 
 Author: Josephine Mueni Nzioka
 Date: September 2025
