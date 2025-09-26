@@ -15,7 +15,7 @@ A responsive landing page for a Demo Shopify Store. Users can explore the homepa
 
 ## Live Demo
 
-Check out the live website here: [Shopify](https://github.com/SafnetCo2/Shopify-website)
+Check out the live website here: [Shopify](https://shopify-website-jr0p.onrender.com)
 
 ## Future Enhancements
 
